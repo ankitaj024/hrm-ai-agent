@@ -27,11 +27,20 @@ def send_email(to_email: str, subject: str, body: str):
             message.attach(MIMEText(body, "plain"))
 
         # Add timeout to prevent blocking for too long
-        with smtplib.SMTP(settings.SMTP_HOST, int(settings.SMTP_PORT), timeout=5) as server:
-            server.starttls()
-            if settings.SMTP_USER and settings.SMTP_PASSWORD:
-                server.login(settings.SMTP_USER, settings.SMTP_PASSWORD)
-            server.sendmail(sender_email, to_email, message.as_string())
+        # Add timeout to prevent blocking for too long
+        if int(settings.SMTP_PORT) == 465:
+            # Use SSL for port 465
+            with smtplib.SMTP_SSL(settings.SMTP_HOST, int(settings.SMTP_PORT), timeout=5) as server:
+                if settings.SMTP_USER and settings.SMTP_PASSWORD:
+                    server.login(settings.SMTP_USER, settings.SMTP_PASSWORD)
+                server.sendmail(sender_email, to_email, message.as_string())
+        else:
+            # Use TLS for 587 (or others)
+            with smtplib.SMTP(settings.SMTP_HOST, int(settings.SMTP_PORT), timeout=5) as server:
+                server.starttls()
+                if settings.SMTP_USER and settings.SMTP_PASSWORD:
+                    server.login(settings.SMTP_USER, settings.SMTP_PASSWORD)
+                server.sendmail(sender_email, to_email, message.as_string())
             
         print(f"EMAIL SENT: To: {to_email}, Subject: {subject}")
         return True

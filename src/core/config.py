@@ -8,7 +8,7 @@ class Settings(BaseSettings):
     
     # SMTP Configuration (Optional for now)
     SMTP_HOST: str = "smtp.gmail.com"
-    SMTP_PORT: int = 587
+    SMTP_PORT: int = 465
     SMTP_USER: str = "skeymouseit@gmail.com" # Add in .env
     SMTP_PASSWORD: str = "ucdopfiulqpgpenz" # Add in .env
 
