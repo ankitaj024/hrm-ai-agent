@@ -1,0 +1,653 @@
+INFO:     Will watch for changes in these directories: ['/home/keymouseit/Desktop/2025/hr-backend-ai']
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     Started reloader process [165081] using StatReload
+INFO:     Started server process [165083]
+INFO:     Waiting for application startup.
+Connected to MongoDB
+INFO:     Application startup complete.
+INFO:     127.0.0.1:34354 - "GET /api/v1/history/1768388878902 HTTP/1.1" 200 OK
+Received message: Hi for thread: 1768388878902
+INFO:     127.0.0.1:34354 - "POST /api/v1/chat HTTP/1.1" 200 OK
+Starting graph execution with astream_events...
+INFO:     127.0.0.1:48546 - "OPTIONS /api/v1/chat HTTP/1.1" 200 OK
+Received message: List of all leave request  for thread: 1768388878902
+INFO:     127.0.0.1:48554 - "POST /api/v1/chat HTTP/1.1" 200 OK
+Starting graph execution with astream_events...
+DEBUG: Tool Start: list_leaves_tool
+Received message: Okay is it paid or unpaid and list leaves count of ankit  for thread: 1768388878902
+INFO:     127.0.0.1:58864 - "POST /api/v1/chat HTTP/1.1" 200 OK
+Starting graph execution with astream_events...
+DEBUG: Tool Start: get_leave_status_tool
+Received message: Okay create short leave for 18 jan 2026 for ankit in the evening for marriage  for thread: 1768388878902
+INFO:     127.0.0.1:47676 - "POST /api/v1/chat HTTP/1.1" 200 OK
+Starting graph execution with astream_events...
+INFO:     127.0.0.1:53602 - "GET /api/v1/history/1768388878902 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53602 - "GET /api/v1/history/1768388878902 HTTP/1.1" 200 OK
+Received message: Give leave count of ankit for thread: 1768389039331
+INFO:     127.0.0.1:59552 - "POST /api/v1/chat HTTP/1.1" 200 OK
+Starting graph execution with astream_events...
+DEBUG: Tool Start: get_leave_status_tool
+Received message: ankitj@keymouseit.com for thread: 1768389039331
+INFO:     127.0.0.1:51042 - "POST /api/v1/chat HTTP/1.1" 200 OK
+Starting graph execution with astream_events...
+DEBUG: Tool Start: get_leave_status_tool
+Received message: Create a short leave for ankit for 20 jan 2026 due to sickness issue  for thread: 1768389039331
+INFO:     127.0.0.1:44678 - "POST /api/v1/chat HTTP/1.1" 200 OK
+Starting graph execution with astream_events...
+WARNING:  StatReload detected changes in 'src/routers/agent.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+Disconnected from MongoDB
+INFO:     Application shutdown complete.
+INFO:     Finished server process [165083]
+INFO:     Started server process [166624]
+INFO:     Waiting for application startup.
+Connected to MongoDB
+INFO:     Application startup complete.
+INFO:     127.0.0.1:40550 - "GET /api/v1/history/1768389039331 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40550 - "GET /api/v1/history/1768389039331 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40550 - "GET /api/v1/history/1768389039331 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40550 - "GET /api/v1/history/1768389039331 HTTP/1.1" 200 OK
+Received message: Give leave count of ankitj@kwymosueit.com for thread: 1768389159043
+INFO:     127.0.0.1:43454 - "POST /api/v1/chat HTTP/1.1" 200 OK
+Starting graph execution with astream_events...
+DEBUG: Tool Start: get_leave_status_tool
+DEBUG: Finished streaming events.
+DEBUG: Snapshot next: ()
+Received message: ankitj@keymouseit.com for thread: 1768389159043
+INFO:     127.0.0.1:33652 - "POST /api/v1/chat HTTP/1.1" 200 OK
+Starting graph execution with astream_events...
+DEBUG: Tool Start: get_leave_status_tool
+DEBUG: Finished streaming events.
+DEBUG: Snapshot next: ()
+Received message: Create a short leave for Ankit for 20 Jan 2026 due to sickness" for thread: 1768389159043
+INFO:     127.0.0.1:33652 - "POST /api/v1/chat HTTP/1.1" 200 OK
+Starting graph execution with astream_events...
+DEBUG: Finished streaming events.
+DEBUG: Snapshot next: ('sensitive_tools',)
+DEBUG: Sensitive tool detected. Sending approval request.
+Received message: approve for thread: 1768389159043
+INFO:     127.0.0.1:58274 - "POST /api/v1/chat HTTP/1.1" 200 OK
+Resuming graph execution via approval...
+Starting graph execution with astream_events...
+DEBUG: Tool Start: apply_leave_tool
+DEBUG: Finished streaming events.
+DEBUG: Snapshot next: ()
+Received message: Evening  for thread: 1768389159043
+INFO:     127.0.0.1:54450 - "POST /api/v1/chat HTTP/1.1" 200 OK
+Starting graph execution with astream_events...
+DEBUG: Finished streaming events.
+DEBUG: Snapshot next: ('sensitive_tools',)
+DEBUG: Sensitive tool detected. Sending approval request.
+Received message: approve for thread: 1768389159043
+INFO:     127.0.0.1:54450 - "POST /api/v1/chat HTTP/1.1" 200 OK
+Resuming graph execution via approval...
+Starting graph execution with astream_events...
+DEBUG: Tool Start: apply_leave_tool
+DEBUG: Finished streaming events.
+DEBUG: Snapshot next: ()
+Received message: Okay now approve this leave for thread: 1768389159043
+INFO:     127.0.0.1:52496 - "POST /api/v1/chat HTTP/1.1" 200 OK
+Starting graph execution with astream_events...
+DEBUG: Finished streaming events.
+DEBUG: Snapshot next: ('sensitive_tools',)
+DEBUG: Sensitive tool detected. Sending approval request.
+Received message: approve for thread: 1768389159043
+INFO:     127.0.0.1:52496 - "POST /api/v1/chat HTTP/1.1" 200 OK
+Resuming graph execution via approval...
+Starting graph execution with astream_events...
+DEBUG: Tool Start: approve_leave_tool
+DEBUG: Finished streaming events.
+DEBUG: Snapshot next: ()
+Received message: Give leave count for ankit  for thread: 1768389159043
+INFO:     127.0.0.1:57870 - "POST /api/v1/chat HTTP/1.1" 200 OK
+Starting graph execution with astream_events...
+DEBUG: Tool Start: get_leave_status_tool
+DEBUG: Finished streaming events.
+DEBUG: Snapshot next: ()
+Received message: Create a short leave for Ankit for 21 Jan 2026 morning  due to sickness for thread: 1768389159043
+INFO:     127.0.0.1:34974 - "POST /api/v1/chat HTTP/1.1" 200 OK
+Starting graph execution with astream_events...
+DEBUG: Finished streaming events.
+DEBUG: Snapshot next: ('sensitive_tools',)
+DEBUG: Sensitive tool detected. Sending approval request.
+Received message: approve for thread: 1768389159043
+INFO:     127.0.0.1:34974 - "POST /api/v1/chat HTTP/1.1" 200 OK
+Resuming graph execution via approval...
+Starting graph execution with astream_events...
+DEBUG: Tool Start: apply_leave_tool
+DEBUG: Finished streaming events.
+DEBUG: Snapshot next: ()
+Received message: Okay create a half day then  for thread: 1768389159043
+INFO:     127.0.0.1:35132 - "POST /api/v1/chat HTTP/1.1" 200 OK
+Starting graph execution with astream_events...
+DEBUG: Finished streaming events.
+DEBUG: Snapshot next: ('sensitive_tools',)
+DEBUG: Sensitive tool detected. Sending approval request.
+Received message: approve for thread: 1768389159043
+INFO:     127.0.0.1:35132 - "POST /api/v1/chat HTTP/1.1" 200 OK
+Resuming graph execution via approval...
+Starting graph execution with astream_events...
+DEBUG: Tool Start: apply_leave_tool
+DEBUG: Finished streaming events.
+DEBUG: Snapshot next: ()
+Received message: Approve thsi leave  for thread: 1768389159043
+INFO:     127.0.0.1:42716 - "POST /api/v1/chat HTTP/1.1" 200 OK
+Starting graph execution with astream_events...
+DEBUG: Finished streaming events.
+DEBUG: Snapshot next: ('sensitive_tools',)
+DEBUG: Sensitive tool detected. Sending approval request.
+Received message: approve for thread: 1768389159043
+INFO:     127.0.0.1:42716 - "POST /api/v1/chat HTTP/1.1" 200 OK
+Resuming graph execution via approval...
+Starting graph execution with astream_events...
+DEBUG: Tool Start: approve_leave_tool
+DEBUG: Finished streaming events.
+DEBUG: Snapshot next: ()
+INFO:     127.0.0.1:59856 - "OPTIONS /api/v1/chat HTTP/1.1" 200 OK
+Received message: Give leave count of ankit  for thread: 1768389159043
+INFO:     127.0.0.1:59872 - "POST /api/v1/chat HTTP/1.1" 200 OK
+Starting graph execution with astream_events...
+DEBUG: Tool Start: get_leave_status_tool
+DEBUG: Finished streaming events.
+DEBUG: Snapshot next: ()
+Received message: Okay create full day leave for ankit for 27 jan 2026 due to marrige  for thread: 1768389159043
+INFO:     127.0.0.1:58464 - "POST /api/v1/chat HTTP/1.1" 200 OK
+Starting graph execution with astream_events...
+DEBUG: Finished streaming events.
+DEBUG: Snapshot next: ('sensitive_tools',)
+DEBUG: Sensitive tool detected. Sending approval request.
+Received message: approve for thread: 1768389159043
+INFO:     127.0.0.1:58464 - "POST /api/v1/chat HTTP/1.1" 200 OK
+Resuming graph execution via approval...
+Starting graph execution with astream_events...
+DEBUG: Tool Start: apply_leave_tool
+DEBUG: Finished streaming events.
+DEBUG: Snapshot next: ()
+Received message: Give leav count for ankit  for thread: 1768389159043
+INFO:     127.0.0.1:43868 - "POST /api/v1/chat HTTP/1.1" 200 OK
+Starting graph execution with astream_events...
+DEBUG: Tool Start: get_leave_status_tool
+DEBUG: Finished streaming events.
+DEBUG: Snapshot next: ()
+WARNING:  StatReload detected changes in 'src/agent/tools.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+Disconnected from MongoDB
+INFO:     Application shutdown complete.
+INFO:     Finished server process [166624]
+INFO:     Started server process [174640]
+INFO:     Waiting for application startup.
+Connected to MongoDB
+INFO:     Application startup complete.
+Received message: Give leave count of ankit  for thread: 1768389159043
+INFO:     127.0.0.1:38030 - "POST /api/v1/chat HTTP/1.1" 200 OK
+Starting graph execution with astream_events...
+DEBUG: Tool Start: get_employee_tool
+DEBUG: Finished streaming events.
+DEBUG: Snapshot next: ()
+Received message: ankitj@keymouseit.com for thread: 1768389159043
+INFO:     127.0.0.1:57098 - "POST /api/v1/chat HTTP/1.1" 200 OK
+Starting graph execution with astream_events...
+DEBUG: Tool Start: get_employee_tool
+DEBUG: Finished streaming events.
+DEBUG: Snapshot next: ()
+Received message: Check again as i guess ankit doensnt take any leaves  for thread: 1768389159043
+INFO:     127.0.0.1:53290 - "POST /api/v1/chat HTTP/1.1" 200 OK
+Starting graph execution with astream_events...
+DEBUG: Tool Start: get_leave_status_tool
+DEBUG: Finished streaming events.
+DEBUG: Snapshot next: ()
+Received message: Okay apply leave for ankit for tommotow half day morning due to personal work for thread: 1768389159043
+INFO:     127.0.0.1:37342 - "POST /api/v1/chat HTTP/1.1" 200 OK
+Starting graph execution with astream_events...
+INFO:     127.0.0.1:49300 - "GET /api/v1/history/1768390655424 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49300 - "GET /api/v1/history/1768390655424 HTTP/1.1" 200 OK
+Received message: Give leave count of ankitj@keymouseit.com  for thread: 1768390655424
+INFO:     127.0.0.1:45370 - "POST /api/v1/chat HTTP/1.1" 200 OK
+Starting graph execution with astream_events...
+Received message: Hii  for thread: 1768390708136
+INFO:     127.0.0.1:40340 - "POST /api/v1/chat HTTP/1.1" 200 OK
+Starting graph execution with astream_events...
+INFO:     127.0.0.1:37486 - "GET /api/v1/history/1768390708136 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37486 - "OPTIONS /api/v1/chat HTTP/1.1" 200 OK
+Received message: Hii for thread: 1768390708136
+INFO:     127.0.0.1:48956 - "POST /api/v1/chat HTTP/1.1" 200 OK
+Starting graph execution with astream_events...
+Error streaming events: Connection error.
+INFO:     127.0.0.1:56718 - "GET /api/v1/history/1768390708136 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49334 - "GET /api/v1/history/1768390875673 HTTP/1.1" 200 OK
+Received message: Hii for thread: 1768390875673
+INFO:     127.0.0.1:49334 - "POST /api/v1/chat HTTP/1.1" 200 OK
+Starting graph execution with astream_events...
+DEBUG: Finished streaming events.
+DEBUG: Snapshot next: ()
+Received message: Give leave count of ankitj@keymouseit.com for thread: 1768390875673
+INFO:     127.0.0.1:35446 - "POST /api/v1/chat HTTP/1.1" 200 OK
+Starting graph execution with astream_events...
+DEBUG: Tool Start: get_leave_status_tool
+DEBUG: Finished streaming events.
+DEBUG: Snapshot next: ()
+Received message: Create half day leave for ankit for tommorow due to personal work in the morning  for thread: 1768390875673
+INFO:     127.0.0.1:42766 - "POST /api/v1/chat HTTP/1.1" 200 OK
+Starting graph execution with astream_events...
+DEBUG: Finished streaming events.
+DEBUG: Snapshot next: ('sensitive_tools',)
+DEBUG: Sensitive tool detected. Sending approval request.
+Received message: approve for thread: 1768390875673
+INFO:     127.0.0.1:42766 - "POST /api/v1/chat HTTP/1.1" 200 OK
+Resuming graph execution via approval...
+Starting graph execution with astream_events...
+DEBUG: Tool Start: apply_leave_tool
+DEBUG: Finished streaming events.
+DEBUG: Snapshot next: ()
+Received message: Okay approe this leave for thread: 1768390875673
+INFO:     127.0.0.1:41168 - "POST /api/v1/chat HTTP/1.1" 200 OK
+Starting graph execution with astream_events...
+DEBUG: Finished streaming events.
+DEBUG: Snapshot next: ('sensitive_tools',)
+DEBUG: Sensitive tool detected. Sending approval request.
+Received message: approve for thread: 1768390875673
+INFO:     127.0.0.1:41168 - "POST /api/v1/chat HTTP/1.1" 200 OK
+Resuming graph execution via approval...
+Starting graph execution with astream_events...
+DEBUG: Tool Start: approve_leave_tool
+DEBUG: Finished streaming events.
+DEBUG: Snapshot next: ()
+Received message: give leave count of ankit  for thread: 1768390875673
+INFO:     127.0.0.1:58458 - "POST /api/v1/chat HTTP/1.1" 200 OK
+Starting graph execution with astream_events...
+DEBUG: Tool Start: get_leave_status_tool
+DEBUG: Finished streaming events.
+DEBUG: Snapshot next: ()
+Received message: Create full day leave for ankit for 18 jan 2026 for sickenss issue  for thread: 1768390875673
+INFO:     127.0.0.1:52030 - "POST /api/v1/chat HTTP/1.1" 200 OK
+Starting graph execution with astream_events...
+DEBUG: Finished streaming events.
+DEBUG: Snapshot next: ('sensitive_tools',)
+DEBUG: Sensitive tool detected. Sending approval request.
+Received message: approve for thread: 1768390875673
+INFO:     127.0.0.1:52030 - "POST /api/v1/chat HTTP/1.1" 200 OK
+Resuming graph execution via approval...
+Starting graph execution with astream_events...
+DEBUG: Tool Start: apply_leave_tool
+DEBUG: Finished streaming events.
+DEBUG: Snapshot next: ()
+Received message: Give leave count of ankit  for thread: 1768390875673
+INFO:     127.0.0.1:45994 - "POST /api/v1/chat HTTP/1.1" 200 OK
+Starting graph execution with astream_events...
+DEBUG: Tool Start: get_leave_status_tool
+DEBUG: Finished streaming events.
+DEBUG: Snapshot next: ()
+Received message: approve leave for ankit for 18 jan one  for thread: 1768390875673
+INFO:     127.0.0.1:44924 - "POST /api/v1/chat HTTP/1.1" 200 OK
+Starting graph execution with astream_events...
+DEBUG: Finished streaming events.
+DEBUG: Snapshot next: ('sensitive_tools',)
+DEBUG: Sensitive tool detected. Sending approval request.
+Received message: approve for thread: 1768390875673
+INFO:     127.0.0.1:44924 - "POST /api/v1/chat HTTP/1.1" 200 OK
+Resuming graph execution via approval...
+Starting graph execution with astream_events...
+DEBUG: Tool Start: approve_leave_tool
+DEBUG: Finished streaming events.
+DEBUG: Snapshot next: ()
+Received message: Now give leave count of ankit  for thread: 1768390875673
+INFO:     127.0.0.1:40226 - "POST /api/v1/chat HTTP/1.1" 200 OK
+Starting graph execution with astream_events...
+DEBUG: Tool Start: get_leave_status_tool
+DEBUG: Finished streaming events.
+DEBUG: Snapshot next: ()
+INFO:     127.0.0.1:49982 - "GET /api/v1/history/1768390875673 HTTP/1.1" 200 OK
+Received message: List all employe  for thread: 1768390875673
+INFO:     127.0.0.1:49982 - "POST /api/v1/chat HTTP/1.1" 200 OK
+Starting graph execution with astream_events...
+DEBUG: Tool Start: list_employees_tool
+DEBUG: Finished streaming events.
+DEBUG: Snapshot next: ()
+Received message: Give me backend employee list  for thread: 1768390875673
+INFO:     127.0.0.1:52322 - "POST /api/v1/chat HTTP/1.1" 200 OK
+Starting graph execution with astream_events...
+DEBUG: Finished streaming events.
+DEBUG: Snapshot next: ()
+INFO:     127.0.0.1:56402 - "GET /api/v1/history/1768390875673 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56402 - "GET /api/v1/history/1768391137129 HTTP/1.1" 200 OK
+Received message: hii  for thread: 1768391137129
+INFO:     127.0.0.1:56402 - "POST /api/v1/chat HTTP/1.1" 200 OK
+Starting graph execution with astream_events...
+DEBUG: Finished streaming events.
+DEBUG: Snapshot next: ()
+Received message: List all leave request  for thread: 1768391137129
+INFO:     127.0.0.1:41620 - "POST /api/v1/chat HTTP/1.1" 200 OK
+Starting graph execution with astream_events...
+DEBUG: Tool Start: list_leaves_tool
+DEBUG: Finished streaming events.
+DEBUG: Snapshot next: ()
+Received message: which are paid one leaves  for thread: 1768391137129
+INFO:     127.0.0.1:41088 - "POST /api/v1/chat HTTP/1.1" 200 OK
+Starting graph execution with astream_events...
+DEBUG: Finished streaming events.
+DEBUG: Snapshot next: ()
+Received message: Give me leave for 18 jan one's for thread: 1768391137129
+INFO:     127.0.0.1:52494 - "POST /api/v1/chat HTTP/1.1" 200 OK
+Starting graph execution with astream_events...
+DEBUG: Finished streaming events.
+DEBUG: Snapshot next: ()
+Received message: list of leave request for 18 jan 2026 for thread: 1768391137129
+INFO:     127.0.0.1:41616 - "POST /api/v1/chat HTTP/1.1" 200 OK
+Starting graph execution with astream_events...
+DEBUG: Tool Start: list_leaves_tool
+DEBUG: Finished streaming events.
+DEBUG: Snapshot next: ()
+Received message: reject this leave  for thread: 1768391137129
+INFO:     127.0.0.1:56434 - "POST /api/v1/chat HTTP/1.1" 200 OK
+Starting graph execution with astream_events...
+DEBUG: Tool Start: reject_leave_tool
+DEBUG: Finished streaming events.
+DEBUG: Snapshot next: ()
+Received message: give all leave request  for thread: 1768391137129
+INFO:     127.0.0.1:33952 - "POST /api/v1/chat HTTP/1.1" 200 OK
+Starting graph execution with astream_events...
+DEBUG: Tool Start: list_leaves_tool
+DEBUG: Finished streaming events.
+DEBUG: Snapshot next: ()
+INFO:     127.0.0.1:54394 - "GET /api/v1/history/1768391137129 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54394 - "GET /api/v1/history/1768391137129 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54394 - "GET /api/v1/history/1768390875673 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59918 - "OPTIONS /api/v1/chat HTTP/1.1" 200 OK
+Received message: list of all employees  for thread: 1768391646348
+INFO:     127.0.0.1:59928 - "POST /api/v1/chat HTTP/1.1" 200 OK
+Starting graph execution with astream_events...
+DEBUG: Tool Start: list_employees_tool
+DEBUG: Finished streaming events.
+DEBUG: Snapshot next: ()
+Received message: Give me detail of gaurav for thread: 1768391646348
+INFO:     127.0.0.1:39546 - "POST /api/v1/chat HTTP/1.1" 200 OK
+Starting graph execution with astream_events...
+DEBUG: Tool Start: get_employee_tool
+DEBUG: Finished streaming events.
+DEBUG: Snapshot next: ()
+Received message: update vikash bharti pemanent address to jalandhar  for thread: 1768391646348
+INFO:     127.0.0.1:47710 - "POST /api/v1/chat HTTP/1.1" 200 OK
+Starting graph execution with astream_events...
+DEBUG: Tool Start: update_employee_tool
+DEBUG: Finished streaming events.
+DEBUG: Snapshot next: ()
+Received message: give detail of vikash bharti  for thread: 1768391646348
+INFO:     127.0.0.1:42174 - "POST /api/v1/chat HTTP/1.1" 200 OK
+Starting graph execution with astream_events...
+DEBUG: Tool Start: get_employee_tool
+DEBUG: Finished streaming events.
+DEBUG: Snapshot next: ()
+Received message: Crete leave of vikash for 20 jan 2026 short leave due to sickness issue  for thread: 1768391646348
+INFO:     127.0.0.1:39766 - "POST /api/v1/chat HTTP/1.1" 200 OK
+Starting graph execution with astream_events...
+DEBUG: Finished streaming events.
+DEBUG: Snapshot next: ('sensitive_tools',)
+DEBUG: Sensitive tool detected. Sending approval request.
+Received message: approve for thread: 1768391646348
+INFO:     127.0.0.1:57012 - "POST /api/v1/chat HTTP/1.1" 200 OK
+Resuming graph execution via approval...
+Starting graph execution with astream_events...
+DEBUG: Tool Start: apply_leave_tool
+DEBUG: Finished streaming events.
+DEBUG: Snapshot next: ()
+Received message: Morning  for thread: 1768391646348
+INFO:     127.0.0.1:52136 - "POST /api/v1/chat HTTP/1.1" 200 OK
+Starting graph execution with astream_events...
+DEBUG: Finished streaming events.
+DEBUG: Snapshot next: ('sensitive_tools',)
+DEBUG: Sensitive tool detected. Sending approval request.
+Received message: approve for thread: 1768391646348
+INFO:     127.0.0.1:52136 - "POST /api/v1/chat HTTP/1.1" 200 OK
+Resuming graph execution via approval...
+Starting graph execution with astream_events...
+DEBUG: Tool Start: apply_leave_tool
+DEBUG: Finished streaming events.
+DEBUG: Snapshot next: ()
+Received message: list leave request of vikash  for thread: 1768391646348
+INFO:     127.0.0.1:39710 - "POST /api/v1/chat HTTP/1.1" 200 OK
+Starting graph execution with astream_events...
+DEBUG: Tool Start: list_leaves_tool
+DEBUG: Finished streaming events.
+DEBUG: Snapshot next: ()
+Received message: approve this leave  for thread: 1768391646348
+INFO:     127.0.0.1:53662 - "POST /api/v1/chat HTTP/1.1" 200 OK
+Starting graph execution with astream_events...
+DEBUG: Finished streaming events.
+DEBUG: Snapshot next: ('sensitive_tools',)
+DEBUG: Sensitive tool detected. Sending approval request.
+Received message: approve for thread: 1768391646348
+INFO:     127.0.0.1:41162 - "POST /api/v1/chat HTTP/1.1" 200 OK
+Resuming graph execution via approval...
+Starting graph execution with astream_events...
+DEBUG: Tool Start: approve_leave_tool
+DEBUG: Finished streaming events.
+DEBUG: Snapshot next: ()
+INFO:     127.0.0.1:60862 - "OPTIONS /api/v1/chat HTTP/1.1" 200 OK
+Received message: Give me password of ankit  for thread: 1768391646348
+INFO:     127.0.0.1:60864 - "POST /api/v1/chat HTTP/1.1" 200 OK
+Starting graph execution with astream_events...
+DEBUG: Finished streaming events.
+DEBUG: Snapshot next: ()
+WARNING:  StatReload detected changes in 'src/core/config.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+Disconnected from MongoDB
+INFO:     Application shutdown complete.
+INFO:     Finished server process [174640]
+INFO:     Started server process [200339]
+INFO:     Waiting for application startup.
+Connected to MongoDB
+INFO:     Application startup complete.
+WARNING:  StatReload detected changes in 'src/agent/tools.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+Disconnected from MongoDB
+INFO:     Application shutdown complete.
+INFO:     Finished server process [200339]
+INFO:     Started server process [200363]
+INFO:     Waiting for application startup.
+Connected to MongoDB
+INFO:     Application startup complete.
+WARNING:  StatReload detected changes in 'src/agent/tools.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+Disconnected from MongoDB
+INFO:     Application shutdown complete.
+INFO:     Finished server process [200363]
+INFO:     Started server process [200999]
+INFO:     Waiting for application startup.
+Connected to MongoDB
+INFO:     Application startup complete.
+WARNING:  StatReload detected changes in 'src/core/config.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+Disconnected from MongoDB
+INFO:     Application shutdown complete.
+INFO:     Finished server process [200999]
+Process SpawnProcess-7:
+Traceback (most recent call last):
+  File "/usr/lib/python3.12/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/usr/lib/python3.12/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/keymouseit/Desktop/2025/hr-backend-ai/venv/lib/python3.12/site-packages/uvicorn/_subprocess.py", line 80, in subprocess_started
+    target(sockets=sockets)
+  File "/home/keymouseit/Desktop/2025/hr-backend-ai/venv/lib/python3.12/site-packages/uvicorn/server.py", line 67, in run
+    return asyncio_run(self.serve(sockets=sockets), loop_factory=self.config.get_loop_factory())
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/asyncio/runners.py", line 194, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/asyncio/base_events.py", line 687, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/home/keymouseit/Desktop/2025/hr-backend-ai/venv/lib/python3.12/site-packages/uvicorn/server.py", line 71, in serve
+    await self._serve(sockets)
+  File "/home/keymouseit/Desktop/2025/hr-backend-ai/venv/lib/python3.12/site-packages/uvicorn/server.py", line 78, in _serve
+    config.load()
+  File "/home/keymouseit/Desktop/2025/hr-backend-ai/venv/lib/python3.12/site-packages/uvicorn/config.py", line 439, in load
+    self.loaded_app = import_from_string(self.app)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/keymouseit/Desktop/2025/hr-backend-ai/venv/lib/python3.12/site-packages/uvicorn/importer.py", line 19, in import_from_string
+    module = importlib.import_module(module_str)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/importlib/__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 995, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/home/keymouseit/Desktop/2025/hr-backend-ai/src/main.py", line 3, in <module>
+    from src.core.database import db
+  File "/home/keymouseit/Desktop/2025/hr-backend-ai/src/core/database.py", line 2, in <module>
+    from src.core.config import settings
+  File "/home/keymouseit/Desktop/2025/hr-backend-ai/src/core/config.py", line 13
+    SMTP_PASSWORD: str = "ucdo pfiu lqpg penz
+                         ^
+SyntaxError: unterminated string literal (detected at line 13)
+WARNING:  StatReload detected changes in 'src/core/config.py'. Reloading...
+INFO:     Started server process [202057]
+INFO:     Waiting for application startup.
+Connected to MongoDB
+INFO:     Application startup complete.
+WARNING:  StatReload detected changes in 'src/core/config.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+Disconnected from MongoDB
+INFO:     Application shutdown complete.
+INFO:     Finished server process [202057]
+INFO:     Started server process [202131]
+INFO:     Waiting for application startup.
+Connected to MongoDB
+INFO:     Application startup complete.
+INFO:     127.0.0.1:50980 - "GET /api/v1/history/1768391646348 HTTP/1.1" 200 OK
+Received message: List all employees for thread: 1768392737095
+INFO:     127.0.0.1:57124 - "POST /api/v1/chat HTTP/1.1" 200 OK
+Starting graph execution with astream_events...
+DEBUG: Tool Start: list_employees_tool
+DEBUG: Finished streaming events.
+DEBUG: Snapshot next: ()
+Received message: Create short leave for majinder for tommorow due to personal reason morning  for thread: 1768392737095
+INFO:     127.0.0.1:37958 - "POST /api/v1/chat HTTP/1.1" 200 OK
+Starting graph execution with astream_events...
+DEBUG: Finished streaming events.
+DEBUG: Snapshot next: ('sensitive_tools',)
+DEBUG: Sensitive tool detected. Sending approval request.
+Received message: approve for thread: 1768392737095
+INFO:     127.0.0.1:51054 - "POST /api/v1/chat HTTP/1.1" 200 OK
+Resuming graph execution via approval...
+Starting graph execution with astream_events...
+DEBUG: Tool Start: apply_leave_tool
+WARNING:  StatReload detected changes in 'src/core/email.py'. Reloading...
+EMAIL SENT: To: adminkmit@yopmail.com, Subject: New Leave Request
+INFO:     Shutting down
+INFO:     Waiting for connections to close. (CTRL+C to force quit)
+DEBUG: Finished streaming events.
+DEBUG: Snapshot next: ()
+INFO:     Waiting for application shutdown.
+Disconnected from MongoDB
+INFO:     Application shutdown complete.
+INFO:     Finished server process [202131]
+INFO:     Started server process [203800]
+INFO:     Waiting for application startup.
+Connected to MongoDB
+INFO:     Application startup complete.
+INFO:     127.0.0.1:60080 - "OPTIONS /api/v1/chat HTTP/1.1" 200 OK
+Received message: Crete full day leave for 17 jan 2026 due to marriage for thread: 1768392737095
+INFO:     127.0.0.1:60082 - "POST /api/v1/chat HTTP/1.1" 200 OK
+Starting graph execution with astream_events...
+DEBUG: Finished streaming events.
+DEBUG: Snapshot next: ('sensitive_tools',)
+DEBUG: Sensitive tool detected. Sending approval request.
+Received message: approve for thread: 1768392737095
+INFO:     127.0.0.1:60082 - "POST /api/v1/chat HTTP/1.1" 200 OK
+Resuming graph execution via approval...
+Starting graph execution with astream_events...
+DEBUG: Tool Start: apply_leave_tool
+DEBUG: Finished streaming events.
+DEBUG: Snapshot next: ()
+Received message:  majinder@keymouseit.com for thread: 1768392737095
+INFO:     127.0.0.1:35678 - "POST /api/v1/chat HTTP/1.1" 200 OK
+Starting graph execution with astream_events...
+DEBUG: Finished streaming events.
+DEBUG: Snapshot next: ('sensitive_tools',)
+DEBUG: Sensitive tool detected. Sending approval request.
+Received message: approve for thread: 1768392737095
+INFO:     127.0.0.1:35678 - "POST /api/v1/chat HTTP/1.1" 200 OK
+Resuming graph execution via approval...
+Starting graph execution with astream_events...
+DEBUG: Tool Start: apply_leave_tool
+DEBUG: Finished streaming events.
+DEBUG: Snapshot next: ()
+EMAIL SENT: To: adminkmit@yopmail.com, Subject: New Leave Request
+WARNING:  StatReload detected changes in 'src/core/email.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+Disconnected from MongoDB
+INFO:     Application shutdown complete.
+INFO:     Finished server process [203800]
+INFO:     Started server process [204945]
+INFO:     Waiting for application startup.
+Connected to MongoDB
+INFO:     Application startup complete.
+WARNING:  StatReload detected changes in 'src/agent/tools.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+Disconnected from MongoDB
+INFO:     Application shutdown complete.
+INFO:     Finished server process [204945]
+INFO:     Started server process [204968]
+INFO:     Waiting for application startup.
+Connected to MongoDB
+INFO:     Application startup complete.
+WARNING:  StatReload detected changes in 'src/agent/tools.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+Disconnected from MongoDB
+INFO:     Application shutdown complete.
+INFO:     Finished server process [204968]
+INFO:     Started server process [204987]
+INFO:     Waiting for application startup.
+Connected to MongoDB
+INFO:     Application startup complete.
+Received message: Create leave for saqeeb for tommorwo for personal work short leave morning  for thread: 1768392737095
+INFO:     127.0.0.1:50774 - "POST /api/v1/chat HTTP/1.1" 200 OK
+Starting graph execution with astream_events...
+DEBUG: Finished streaming events.
+DEBUG: Snapshot next: ('sensitive_tools',)
+DEBUG: Sensitive tool detected. Sending approval request.
+Received message: approve for thread: 1768392737095
+INFO:     127.0.0.1:59470 - "POST /api/v1/chat HTTP/1.1" 200 OK
+Resuming graph execution via approval...
+Starting graph execution with astream_events...
+DEBUG: Tool Start: apply_leave_tool
+DEBUG: Finished streaming events.
+DEBUG: Snapshot next: ()
+Received message: saqeeba@keymouseit.com for thread: 1768392737095
+INFO:     127.0.0.1:41648 - "POST /api/v1/chat HTTP/1.1" 200 OK
+Starting graph execution with astream_events...
+DEBUG: Finished streaming events.
+DEBUG: Snapshot next: ('sensitive_tools',)
+DEBUG: Sensitive tool detected. Sending approval request.
+Received message: approve for thread: 1768392737095
+INFO:     127.0.0.1:41648 - "POST /api/v1/chat HTTP/1.1" 200 OK
+Resuming graph execution via approval...
+Starting graph execution with astream_events...
+DEBUG: Tool Start: apply_leave_tool
+DEBUG: Finished streaming events.
+DEBUG: Snapshot next: ()
+EMAIL SENT: To: adminkmit@yopmail.com, Subject: New Leave Request
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+Disconnected from MongoDB
+INFO:     Application shutdown complete.
+INFO:     Finished server process [204987]
+INFO:     Stopping reloader process [165081]

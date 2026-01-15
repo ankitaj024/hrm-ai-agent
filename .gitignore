@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.env
+
+# Frontend (Excluded for this repo as requested)
+frontend/
+node_modules/
+.next/
+out/
+
+# IDEs
+.vscode/
+.idea/
+
+# Misc
+.DS_Store

@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: hr-backend-ai
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn src.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0
+      - key: MONGODB_URL
+        sync: false
+      - key: DATABASE_NAME
+        value: hr_db
+      - key: OPENROUTER_API_KEY
+        sync: false

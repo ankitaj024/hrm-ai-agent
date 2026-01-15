@@ -1,0 +1,14 @@
+fastapi
+uvicorn
+motor
+pydantic[email]
+pydantic-settings
+langgraph
+langchain-google-genai
+langchain-openai
+python-dotenv
+email-validator
+bcrypt
+passlib[bcrypt]
+python-jose[cryptography]
+python-multipart
