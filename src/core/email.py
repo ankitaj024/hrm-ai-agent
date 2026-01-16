@@ -1,5 +1,7 @@
 
+
 import smtplib
+import traceback
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from src.core.config import settings
@@ -9,7 +11,8 @@ def send_email(to_email: str, subject: str, body: str):
     Sends an email using the configured SMTP server.
     If credentials are missing or connection fails, logs the email instead.
     """
-    sender_email = "test@yopmail.com"
+    # Use the SMTP user as the sender if available, otherwise fallback (which likely won't work on prod)
+    sender_email = settings.SMTP_USER if settings.SMTP_USER else "test@yopmail.com"
 
     try:
         # Check if SMTP config is present (Mock check)
@@ -27,16 +30,16 @@ def send_email(to_email: str, subject: str, body: str):
             message.attach(MIMEText(body, "plain"))
 
         # Add timeout to prevent blocking for too long
-        # Add timeout to prevent blocking for too long
+        timeout_seconds = 10
         if int(settings.SMTP_PORT) == 465:
             # Use SSL for port 465
-            with smtplib.SMTP_SSL(settings.SMTP_HOST, int(settings.SMTP_PORT), timeout=5) as server:
+            with smtplib.SMTP_SSL(settings.SMTP_HOST, int(settings.SMTP_PORT), timeout=timeout_seconds) as server:
                 if settings.SMTP_USER and settings.SMTP_PASSWORD:
                     server.login(settings.SMTP_USER, settings.SMTP_PASSWORD)
                 server.sendmail(sender_email, to_email, message.as_string())
         else:
             # Use TLS for 587 (or others)
-            with smtplib.SMTP(settings.SMTP_HOST, int(settings.SMTP_PORT), timeout=5) as server:
+            with smtplib.SMTP(settings.SMTP_HOST, int(settings.SMTP_PORT), timeout=timeout_seconds) as server:
                 server.starttls()
                 if settings.SMTP_USER and settings.SMTP_PASSWORD:
                     server.login(settings.SMTP_USER, settings.SMTP_PASSWORD)
@@ -48,7 +51,8 @@ def send_email(to_email: str, subject: str, body: str):
     except Exception as e:
         # Fallback logging for development/demo
         print(f"--------------------------------------------------")
-        print(f"EMAIL SIMULATION (Failed to send real email: {e})")
+        print(f"EMAIL FAILED (Error: {e})")
+        print(traceback.format_exc()) # Print full traceback to logs
         print(f"FROM: {sender_email}")
         print(f"TO: {to_email}")
         print(f"SUBJECT: {subject}")
