@@ -14,8 +14,7 @@ from src.agent.tools import (
     apply_leave_tool, get_leave_status_tool, approve_leave_tool, reject_leave_tool, list_leaves_tool,
     update_leave_status_tool,
     create_holiday_tool, list_holidays_tool, update_holiday_tool, delete_holiday_tool,
-    create_policy_tool, update_policy_tool, delete_policy_tool, get_policy_tool, list_policies_tool,
-    generate_document_tool
+    create_policy_tool, update_policy_tool, delete_policy_tool, get_policy_tool, list_policies_tool
 )
 
 class State(TypedDict):
@@ -34,8 +33,7 @@ safe_tools = [
     create_employee_tool, get_employee_tool, list_employees_tool, update_employee_tool,
     get_leave_status_tool, reject_leave_tool, list_leaves_tool, update_leave_status_tool,
     list_holidays_tool, create_holiday_tool, update_holiday_tool,
-    create_policy_tool, update_policy_tool, get_policy_tool, list_policies_tool,
-    generate_document_tool
+    create_policy_tool, update_policy_tool, get_policy_tool, list_policies_tool
 ]
 
 # Sensitive tools require human approval

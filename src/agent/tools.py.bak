@@ -1,14 +1,10 @@
 from langchain_core.tools import tool
 from src.core.database import db
 from src.models.employee import EmployeeSchema, Gender, BankDetails, Department, Designation
-from src.models.holiday import HolidaySchema
-from src.models.policy import PolicySchema
 from typing import Optional, List
 import bcrypt
 from datetime import date, datetime
-import json
 from src.core.context import current_user_context
-from src.core.config import settings
 
 def check_permission(target_email: str = None, require_super_admin: bool = False) -> str | None:
     """
@@ -253,7 +249,7 @@ async def get_employee_tool(email: str):
     if "password" in employee:
         employee["password"] = "********"
         
-    return json.dumps(employee, default=str)
+    return str(employee)
 
 @tool
 async def list_employees_tool():
@@ -290,7 +286,7 @@ async def list_employees_tool():
     if not employees:
         return "No employees found."
         
-    return json.dumps(employees, default=str)
+    return str(employees)
 
 @tool
 async def update_employee_tool(
@@ -559,18 +555,17 @@ async def get_leave_status_tool(email: str):
     cursor = collection_leaves.find({"employee_email": email}).sort("date", -1).limit(5)
     recent_leaves = []
     async for doc in cursor:
-        recent_leaves.append({
-            "date": doc['date'],
-            "leave_type": doc['leave_type'],
-            "status": doc['status']
-        })
+        recent_leaves.append(f"- {doc['date'].strftime('%Y-%m-%d')} ({doc['leave_type']}): {doc['status']}")
         
-    return json.dumps({
-        "employee_name": employee["name"],
-        "leave_balance": pl_balance,
-        "short_leaves_taken": short_taken,
-        "recent_requests": recent_leaves
-    }, default=str)
+    return f"""
+    Employee: {employee['name']}
+    ---------------------------
+    Privilege Leave Balance: {pl_balance} (Carries forward)
+    Short Leaves Taken (This Month): {short_taken}/2
+    
+    Recent Requests:
+    {chr(10).join(recent_leaves) if recent_leaves else "None"}
+    """
 
 
 async def _approve_leave_logic(request_id: str, reason: str = "Approved by Admin"):
@@ -731,298 +726,3 @@ async def update_leave_status_tool(request_id: str, status: str, reason: str = "
         return await _reject_leave_logic(request_id, reason)
     else:
         return "Error: Invalid status. Use 'Approved' or 'Rejected'."
-
-# --- Holiday Management Tools ---
-
-@tool
-async def create_holiday_tool(
-    name: str,
-    date_str: str,
-    description: str = None
-):
-    """
-    Creates a new holiday.
-    Super Admin only.
-    Args:
-        name: Name of the holiday
-        date_str: Date (YYYY-MM-DD)
-        description: Optional description
-    """
-    if error := check_permission(require_super_admin=True):
-        return error
-        
-    try:
-        holiday_date = date.fromisoformat(date_str)
-    except ValueError:
-        return "Error: Date must be in YYYY-MM-DD format."
-        
-    day_of_week = holiday_date.strftime("%A")
-    
-    holiday = HolidaySchema(
-        name=name,
-        date=holiday_date,
-        day=day_of_week,
-        description=description
-    )
-    
-    collection = db.get_db()["holidays"]
-    
-    # Check duplicate date
-    existing = await collection.find_one({"date": datetime.combine(holiday_date, datetime.min.time())})
-    if existing:
-        return f"Error: A holiday already exists on {date_str} ({existing.get('name')})."
-        
-    data = holiday.model_dump(by_alias=True, exclude=["id"])
-    if isinstance(data["date"], date):
-        data["date"] = datetime.combine(data["date"], datetime.min.time())
-        
-    result = await collection.insert_one(data)
-    return f"Successfully created holiday '{name}' on {date_str} ({day_of_week}). ID: {result.inserted_id}"
-
-@tool
-async def list_holidays_tool(year: int = None):
-    """
-    Lists all holidays.
-    Accessible by all authenticated users.
-    Args:
-        year: Optional year to filter holidays. Defaults to current year if not provided.
-    """
-    if error := check_permission():
-        return error
-        
-    collection = db.get_db()["holidays"]
-    
-    current_year = year or datetime.now().year
-    start_date = datetime(current_year, 1, 1)
-    end_date = datetime(current_year + 1, 1, 1)
-    
-    cursor = collection.find({"date": {"$gte": start_date, "$lt": end_date}}).sort("date", 1)
-    
-    holidays = []
-    async for doc in cursor:
-        d = doc["date"]
-        date_str = d.strftime("%Y-%m-%d") if isinstance(d, datetime) else str(d)
-        holidays.append(f"- {date_str} ({doc.get('day', 'Unknown')}): {doc['name']} - {doc.get('description', '')}")
-        
-    if not holidays:
-        return f"No holidays found for year {current_year}."
-        
-    return f"Holidays for {current_year}:\n" + "\n".join(holidays)
-
-@tool
-async def update_holiday_tool(
-    date_str: str,
-    name: str = None,
-    description: str = None
-):
-    """
-    Updates an existing holiday by its date.
-    Super Admin only.
-    """
-    if error := check_permission(require_super_admin=True):
-        return error
-        
-    try:
-        query_date = datetime.combine(date.fromisoformat(date_str), datetime.min.time())
-    except ValueError:
-        return "Error: Date must be in YYYY-MM-DD format."
-        
-    collection = db.get_db()["holidays"]
-    holiday = await collection.find_one({"date": query_date})
-    
-    if not holiday:
-        return f"No holiday found on {date_str}."
-        
-    update_data = {}
-    if name: update_data["name"] = name
-    if description: update_data["description"] = description
-    update_data["updated_at"] = datetime.now()
-    
-    if not update_data:
-        return "No fields provided to update."
-        
-    await collection.update_one({"_id": holiday["_id"]}, {"$set": update_data})
-    return f"Successfully updated holiday on {date_str}."
-
-@tool
-async def delete_holiday_tool(date_str: str):
-    """
-    Deletes a holiday by its date.
-    Super Admin only.
-    """
-    if error := check_permission(require_super_admin=True):
-        return error
-        
-    try:
-        query_date = datetime.combine(date.fromisoformat(date_str), datetime.min.time())
-    except ValueError:
-        return "Error: Date must be YYYY-MM-DD format."
-        
-    collection = db.get_db()["holidays"]
-    result = await collection.delete_one({"date": query_date})
-    
-    if result.deleted_count == 0:
-        return f"No holiday found on {date_str} to delete."
-        
-    return f"Successfully deleted holiday on {date_str}."
-
-# --- Policy Management Tools ---
-
-@tool
-async def create_policy_tool(
-    name: str,
-    content: str
-):
-    """
-    Creates a new company policy with HTML content.
-    Super Admin only.
-    Args:
-        name: Name of the policy
-        content: HTML content of the policy
-    """
-    if error := check_permission(require_super_admin=True):
-        return error
-        
-    collection = db.get_db()["policies"]
-    existing = await collection.find_one({"name": name})
-    if existing:
-        return f"Error: A policy with the name '{name}' already exists."
-        
-    policy = PolicySchema(name=name, content=content)
-    data = policy.model_dump(by_alias=True, exclude=["id"])
-    
-    result = await collection.insert_one(data)
-    return f"Successfully created policy '{name}'. ID: {result.inserted_id}"
-
-@tool
-async def update_policy_tool(
-    name: str,
-    content: str
-):
-    """
-    Updates an existing policy's content.
-    Super Admin only.
-    Args:
-        name: Name of the policy to update
-        content: New HTML content
-    """
-    if error := check_permission(require_super_admin=True):
-        return error
-        
-    collection = db.get_db()["policies"]
-    policy = await collection.find_one({"name": name})
-    
-    if not policy:
-        return f"No policy found with name '{name}'."
-        
-    await collection.update_one(
-        {"_id": policy["_id"]}, 
-        {"$set": {"content": content, "updated_at": datetime.now()}}
-    )
-    return f"Successfully updated policy '{name}'."
-
-@tool
-async def delete_policy_tool(name: str):
-    """
-    Deletes a policy.
-    Super Admin only.
-    """
-    if error := check_permission(require_super_admin=True):
-        return error
-        
-    collection = db.get_db()["policies"]
-    result = await collection.delete_one({"name": name})
-    
-    if result.deleted_count == 0:
-        return f"No policy found with name '{name}' to delete."
-        
-    return f"Successfully deleted policy '{name}'."
-
-@tool
-async def get_policy_tool(name: str):
-    """
-    Retrieves the content of a specific policy.
-    Accessible by all authenticated users.
-    """
-    if error := check_permission():
-        return error
-        
-    collection = db.get_db()["policies"]
-    policy = await collection.find_one({"name": name})
-    
-    if not policy:
-        return f"No policy found with name '{name}'."
-        
-    return f"Policy: {policy['name']}\n\n{policy['content']}"
-
-@tool
-async def list_policies_tool():
-    """
-    Lists all available company policies.
-    Accessible by all authenticated users.
-    """
-    if error := check_permission():
-        return error
-        
-    collection = db.get_db()["policies"]
-    cursor = collection.find({}).sort("name", 1)
-    
-    policies = []
-    async for doc in cursor:
-        policies.append(f"- {doc['name']}")
-        
-    if not policies:
-        return "No policies found."
-        
-    return "Available Policies:\n" + "\n".join(policies)
-
-# --- Document Generation Tools ---
-from src.services.pdf_service import create_experience_letter
-
-@tool
-async def generate_document_tool(
-    employee_email: str,
-    document_type: str = "experience_letter"
-):
-    """
-    Generates an official document (PDF) for an employee.
-    
-    Args:
-        employee_email: The email of the employee.
-        document_type: Type of document. Currently supported: 'experience_letter'.
-    """
-    if error := check_permission(require_super_admin=True):
-        return error
-        
-    collection = db.get_db()["employees"]
-    employee = await collection.find_one({"email": employee_email})
-    
-    if not employee:
-        return f"Error: Employee with email {employee_email} not found."
-    
-    # Calculate joining date string if available, else use "N/A"
-    joining_date = employee.get("created_at", None)
-    if isinstance(joining_date, datetime):
-        joining_date_str = joining_date.strftime("%B %d, %Y")
-    else:
-        joining_date_str = "N/A"
-        
-    employee_data = {
-        "name": employee.get("name"),
-        "role": employee.get("role"),
-        "department": employee.get("department"),
-        "joining_date": joining_date_str
-    }
-    
-    try:
-        if document_type == "experience_letter":
-            filename, filepath = create_experience_letter(employee_data)
-            # Return a markdown link to the file served by the router
-            api_url = settings.API_URL if hasattr(settings, 'API_URL') else "http://localhost:8000"
-            download_url = f"{api_url}/api/v1/documents/download/{filename}"
-            return f"Document Generated Successfully!\n\n[Download Experience Letter]({download_url})"
-        else:
-            return f"Error: Unsupported document type '{document_type}'. Currently only 'experience_letter' is supported."
-            
-    except Exception as e:
-        return f"Error generating document: {str(e)}"

@@ -25,6 +25,9 @@ app.add_middleware(
 
 app.include_router(agent.router, prefix="/api/v1")
 app.include_router(auth.router, prefix="/api/v1")
+from src.routers import analytics, documents
+app.include_router(analytics.router, prefix="/api/v1")
+app.include_router(documents.router, prefix="/api/v1")
 
 @app.get("/")
 async def root():
