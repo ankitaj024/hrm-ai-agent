@@ -7,10 +7,16 @@ class Settings(BaseSettings):
     DB_NAME: str = "hrm-ai-agent"
     
     # SMTP Configuration (Optional for now)
-    SMTP_HOST: str
-    SMTP_PORT: int
-    SMTP_USER: str
-    SMTP_PASSWORD: str
+    # SMTP Configuration (Deprecated - replaced by Resend)
+    SMTP_HOST: str = ""
+    SMTP_PORT: int = 587
+    SMTP_USER: str = ""
+    SMTP_PASSWORD: str = ""
+
+    # Resend API Configuration
+    RESEND_API_KEY: str = ""
+    RESEND_FROM_EMAIL: str = "onboarding@resend.dev" # Default for testing
+    RESEND_TEST_RECIPIENT: str = "" # If set, all emails sort to this address (good for dev/free tier)
 
     # Google Calendar Configuration
     GOOGLE_SERVICE_ACCOUNT_JSON: str = "" # JSON content or path
