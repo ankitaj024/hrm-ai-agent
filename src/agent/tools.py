@@ -623,7 +623,24 @@ async def _approve_leave_logic(request_id: str, reason: str = "Approved by Admin
     email_body = get_leave_status_update_template(email, date_str, "Approved", reason, is_paid=is_paid_status)
     asyncio.create_task(asyncio.to_thread(send_email, to_email="testagent@yopmail.com", subject="Leave Request Approved", body=email_body))
     
-    return f"Leave Approved for {email}. Balance updated."
+    # Create Google Calendar Event
+    from src.services.calendar_service import GoogleCalendarService
+    
+    calendar_summary = f"{employee.get('name', email)} - {l_type} ({req['slot']})"
+    try:
+        # We use create_full_day_event for now as most leaves are full day based on current logic, 
+        # or we can inspect l_type. Since we store date as datetime at midnight, full day event is appropriate.
+        # If it's a short leave, we might want to specify time, but strict time is not in DB yet (just slot).
+        # So defaulting to full day event on that date for visibility.
+        
+        cal_res = GoogleCalendarService.create_full_day_event(
+            summary=calendar_summary,
+            date_obj=req["date"],
+            description=f"Leave Approved. Reason: {req.get('reason', 'N/A')}. Slot: {req['slot']}"
+        )
+        return f"Leave Approved for {email}. Balance updated. Calendar Event: {cal_res}"
+    except Exception as e:
+        return f"Leave Approved for {email}. Balance updated. (Calendar Error: {str(e)})"
 
 async def _reject_leave_logic(request_id: str, reason: str = "Rejected by Admin"):
     if error := check_permission(require_super_admin=True):

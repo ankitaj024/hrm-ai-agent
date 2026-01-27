@@ -23,7 +23,7 @@ class State(TypedDict):
 
 # Initialize LLM with tools
 llm = ChatOpenAI(
-    model="xiaomi/mimo-v2-flash:free",  # Using Gemini Flash 2.0
+    model="nvidia/nemotron-3-nano-30b-a3b:free",  # Using Gemini Flash 2.0
     # model="allenai/molmo-2-8b:free",  # Using Gemini Flash 2.0
     api_key=settings.OPENROUTER_API_KEY,
     base_url="https://openrouter.ai/api/v1",

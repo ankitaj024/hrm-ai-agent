@@ -20,6 +20,15 @@ async def get_dashboard_stats():
             {"$project": {"name": "$_id", "value": "$count", "_id": 0}}
         ]
         employees_by_dept = await database.employees.aggregate(dept_pipeline).to_list(None)
+        
+        # Monitor/Sanitize Data
+        for dept in employees_by_dept:
+            raw_name = dept.get("name")
+            if not raw_name or str(raw_name).strip() == "" or str(raw_name).lower() == "null":
+                dept["name"] = "Unassigned"
+            else:
+                 dept["name"] = str(raw_name).title()
+
 
         # 3. Leave Stats
         # Pending Requests
