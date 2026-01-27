@@ -35,12 +35,27 @@ def send_email(to_email: str, subject: str, body: str):
         # IPv4 Resolution Handling for Render
         # Render sometimes has issues with IPv6 routing for Gmail, causing [Errno 101] Network is unreachable
         target_host = settings.SMTP_HOST
+        import socket
         try:
-            target_ip = socket.gethostbyname(settings.SMTP_HOST)
-            print(f"Resolved SMTP Host {settings.SMTP_HOST} to IPv4: {target_ip}")
+            # FORCE IPv4 using getaddrinfo
+            # This returns a list of tuples, we take the first one's IP
+            addr_info = socket.getaddrinfo(settings.SMTP_HOST, 465, family=socket.AF_INET, proto=socket.IPPROTO_TCP)
+            # addr_info[0] is (family, type, proto, canonname, sockaddr)
+            # sockaddr is (ip, port)
+            target_ip = addr_info[0][4][0]
+            print(f"STRICT RESOLUTION: Resolved {settings.SMTP_HOST} to IPv4: {target_ip}")
             target_host = target_ip
         except Exception as dns_error:
-            print(f"Warning: Could not resolve IPv4 for SMTP: {dns_error}")
+            print(f"Warning: Could not resolve IPv4 for SMTP using getaddrinfo: {dns_error}")
+            try:
+                # Fallback to simple gethostbyname
+                target_ip = socket.gethostbyname(settings.SMTP_HOST)
+                print(f"Fallback resolution: {settings.SMTP_HOST} -> {target_ip}")
+                target_host = target_ip
+            except Exception as e2:
+                print(f"CRITICAL: Accessing SMTP host failed resolution: {e2}")
+                # We will try the hostname directly, but it likely fails IPv6
+
             # Fallback to original host
 
         # Context for SSL (Verify original hostname, not the IP)
