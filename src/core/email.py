@@ -32,13 +32,22 @@ def send_email(to_email: str, subject: str, body: str):
         # Add timeout to prevent blocking for too long
         timeout_seconds = 10
         if int(settings.SMTP_PORT) == 465:
-            # Use SSL for port 465
-            with smtplib.SMTP_SSL(settings.SMTP_HOST, int(settings.SMTP_PORT), timeout=timeout_seconds) as server:
-                if settings.SMTP_USER and settings.SMTP_PASSWORD:
-                    server.login(settings.SMTP_USER, settings.SMTP_PASSWORD)
-                server.sendmail(sender_email, to_email, message.as_string())
+            # Use SSL for port 465, with fallback to 587
+            try:
+                with smtplib.SMTP_SSL(settings.SMTP_HOST, 465, timeout=timeout_seconds) as server:
+                    if settings.SMTP_USER and settings.SMTP_PASSWORD:
+                        server.login(settings.SMTP_USER, settings.SMTP_PASSWORD)
+                    server.sendmail(sender_email, to_email, message.as_string())
+            except OSError as e:
+                # Network unreachable or other socket error, likely port blocked. Try 587.
+                print(f"SMTP SSL (465) failed: {e}. Retrying with TLS (587)...")
+                with smtplib.SMTP(settings.SMTP_HOST, 587, timeout=timeout_seconds) as server:
+                    server.starttls()
+                    if settings.SMTP_USER and settings.SMTP_PASSWORD:
+                        server.login(settings.SMTP_USER, settings.SMTP_PASSWORD)
+                    server.sendmail(sender_email, to_email, message.as_string())
         else:
-            # Use TLS for 587 (or others)
+            # For 587 or other ports
             with smtplib.SMTP(settings.SMTP_HOST, int(settings.SMTP_PORT), timeout=timeout_seconds) as server:
                 server.starttls()
                 if settings.SMTP_USER and settings.SMTP_PASSWORD:
