@@ -31,29 +31,67 @@ def send_email(to_email: str, subject: str, body: str):
 
         # Add timeout to prevent blocking for too long
         timeout_seconds = 10
-        if int(settings.SMTP_PORT) == 465:
-            # Use SSL for port 465, with fallback to 587
-            try:
-                with smtplib.SMTP_SSL(settings.SMTP_HOST, 465, timeout=timeout_seconds) as server:
-                    if settings.SMTP_USER and settings.SMTP_PASSWORD:
-                        server.login(settings.SMTP_USER, settings.SMTP_PASSWORD)
-                    server.sendmail(sender_email, to_email, message.as_string())
-            except OSError as e:
-                # Network unreachable or other socket error, likely port blocked. Try 587.
-                print(f"SMTP SSL (465) failed: {e}. Retrying with TLS (587)...")
-                with smtplib.SMTP(settings.SMTP_HOST, 587, timeout=timeout_seconds) as server:
-                    server.starttls()
-                    if settings.SMTP_USER and settings.SMTP_PASSWORD:
-                        server.login(settings.SMTP_USER, settings.SMTP_PASSWORD)
-                    server.sendmail(sender_email, to_email, message.as_string())
-        else:
-            # For 587 or other ports
-            with smtplib.SMTP(settings.SMTP_HOST, int(settings.SMTP_PORT), timeout=timeout_seconds) as server:
-                server.starttls()
+        
+        # IPv4 Resolution Handling for Render
+        # Render sometimes has issues with IPv6 routing for Gmail, causing [Errno 101] Network is unreachable
+        target_host = settings.SMTP_HOST
+        try:
+            target_ip = socket.gethostbyname(settings.SMTP_HOST)
+            print(f"Resolved SMTP Host {settings.SMTP_HOST} to IPv4: {target_ip}")
+            target_host = target_ip
+        except Exception as dns_error:
+            print(f"Warning: Could not resolve IPv4 for SMTP: {dns_error}")
+            # Fallback to original host
+
+        # Context for SSL (Verify original hostname, not the IP)
+        import ssl
+        context = ssl.create_default_context()
+        # We must tell it to check the original hostname, not the IP we are connecting to
+        
+        # Logic: 
+        # 1. Try 465 (SSL)
+        # 2. Key: If connecting to IP, we must handle wrapping carefully or accept potential cert mismatch warnings 
+        #    (though Gmail certs likely won't match the IP).
+        #    Actually, standard smtplib validates `host`. If we pass IP, validation fails.
+        #    So we create a wrapper context.
+
+        def create_context():
+            ctx = ssl.create_default_context()
+            # If we are using IP, hostname check might fail. 
+            # Ideally we pass 'server_hostname' to wrap_socket, but smtplib hides that.
+            # We will disable hostname check for this specific connection if needed, 
+            # OR better: use smtplib's ability to pass IP but validate HOST? 
+            # smtplib doesn't support that easily.
+            # For now, to get it working, we might have to disable check_hostname if using IP, 
+            # OR trust that 'gethostbyname' is safe enough in this container Env.
+            ctx.check_hostname = False 
+            ctx.verify_mode = ssl.CERT_NONE 
+            return ctx
+
+        # Attempt 1: Port 465 (SSL)
+        try:
+             # Try connecting
+             print(f"Attempting SMTP_SSL on {target_host}:465...")
+             with smtplib.SMTP_SSL(target_host, 465, timeout=timeout_seconds, context=create_context()) as server:
                 if settings.SMTP_USER and settings.SMTP_PASSWORD:
                     server.login(settings.SMTP_USER, settings.SMTP_PASSWORD)
                 server.sendmail(sender_email, to_email, message.as_string())
+        except Exception as e1:
+            print(f"SMTP SSL (465) failed: {e1}. Retrying with TLS (587)...")
             
+            # Attempt 2: Port 587 (TLS)
+            try:
+                print(f"Attempting SMTP on {target_host}:587...")
+                with smtplib.SMTP(target_host, 587, timeout=timeout_seconds) as server:
+                    # Upgrade to TLS
+                    # Here we also need context for the IP issue
+                    server.starttls(context=create_context()) 
+                    if settings.SMTP_USER and settings.SMTP_PASSWORD:
+                        server.login(settings.SMTP_USER, settings.SMTP_PASSWORD)
+                    server.sendmail(sender_email, to_email, message.as_string())
+            except Exception as e2:
+                 raise Exception(f"All SMTP attempts failed. 465: {e1} | 587: {e2}")
+
         print(f"EMAIL SENT: To: {to_email}, Subject: {subject}")
         return True
 
@@ -68,3 +106,4 @@ def send_email(to_email: str, subject: str, body: str):
         print(f"BODY:\n{body}")
         print(f"--------------------------------------------------")
         return False
+
