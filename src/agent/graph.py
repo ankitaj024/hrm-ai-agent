@@ -23,7 +23,7 @@ class State(TypedDict):
 
 # Initialize LLM with tools
 llm = ChatOpenAI(
-    model="arcee-ai/trinity-large-preview:free",  # Using Gemini Flash 2.0
+    model="z-ai/glm-4.5-air:free",  # Using Gemini Flash 2.0
     # model="allenai/molmo-2-8b:free",  # Using Gemini Flash 2.0
     api_key=settings.OPENROUTER_API_KEY,
     base_url="https://openrouter.ai/api/v1",
