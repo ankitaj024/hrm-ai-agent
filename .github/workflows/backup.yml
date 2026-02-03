@@ -1,0 +1,154 @@
+name: MongoDB Backup to Google Drive
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Install MongoDB Tools
+        run: |
+          wget https://fastdl.mongodb.org/tools/db/mongodb-database-tools-ubuntu2204-x86_64-100.9.4.tgz
+          tar -zxvf mongodb-database-tools-ubuntu2204-x86_64-100.9.4.tgz
+          sudo cp mongodb-database-tools-ubuntu2204-x86_64-100.9.4/bin/* /usr/local/bin/
+
+      - name: Install Dependencies
+        run: npm install googleapis dotenv mongodb
+
+      - name: Create Backup Script
+        run: |
+          cat << 'EOF' > backup.js
+          const { google } = require('googleapis');
+          const fs = require('fs');
+          const { execSync } = require('child_process');
+          const path = require('path');
+          const { MongoClient } = require('mongodb');
+          
+          // Debug function
+          function debugLog(label, value) {
+              console.log(`Debug: ${label} length: ${value ? value.length : 'MISSING'}`);
+          }
+
+          async function runBackup() {
+              const MONGO_URI = process.env.MONGO_URI;
+              const FOLDER_ID = process.env.GDRIVE_FOLDER_ID || '1WVTuK-Zj5PZgrdhECSGbpoyTmHV1WOEC';
+              const CLIENT_ID = process.env.GDRIVE_CLIENT_ID;
+              const CLIENT_SECRET = process.env.GDRIVE_CLIENT_SECRET;
+              const REFRESH_TOKEN = process.env.GDRIVE_REFRESH_TOKEN;
+
+              const date = new Date().toISOString().split('T')[0];
+              const backupDir = path.join(__dirname, `backup-${date}`);
+              const zipFileName = `backup-${date}.zip`;
+              const zipFilePath = path.join(__dirname, zipFileName);
+
+              console.log('[1/4] Checking Configuration...');
+              debugLog('CLIENT_ID', CLIENT_ID);
+              debugLog('CLIENT_SECRET', CLIENT_SECRET);
+              debugLog('REFRESH_TOKEN', REFRESH_TOKEN);
+              
+              if (!MONGO_URI) { console.error('Missing MONGO_URI'); process.exit(1); }
+              if (!CLIENT_ID || !CLIENT_SECRET || !REFRESH_TOKEN) {
+                  console.error('Missing OAuth Credentials');
+                  process.exit(1);
+              }
+
+              let client;
+              try {
+                  // 1. FETCH COLLECTIONS AND EXPORT TO JSON
+                  console.log(`[2/4] Exporting MongoDB Collections to JSON...`);
+                  
+                  if (!fs.existsSync(backupDir)) {
+                      fs.mkdirSync(backupDir);
+                  }
+
+                  client = new MongoClient(MONGO_URI);
+                  await client.connect();
+                  const db = client.db();
+                  const collections = await db.listCollections().toArray();
+                  
+                  console.log(`Found ${collections.length} collections.`);
+
+                  for (const col of collections) {
+                      const colName = col.name;
+                      const colPath = path.join(backupDir, `${colName}.json`);
+                      console.log(`Exporting ${colName}...`);
+                      // Escape the URI for the shell command
+                      execSync(`mongoexport --uri="${MONGO_URI}" --collection="${colName}" --out="${colPath}" --jsonArray`, { stdio: 'inherit' });
+                  }
+
+                  // 2. ZIP THE JSON FILES
+                  console.log(`[3/4] Zipping backup directory...`);
+                  execSync(`zip -r "${zipFileName}" "${path.basename(backupDir)}"`, { cwd: __dirname });
+                  console.log(`Created ${zipFileName}`);
+
+                  // 3. SETUP GOOGLE DRIVE AUTH
+                  console.log('[4/4] Authenticating with Google...');
+                  
+                  const auth = new google.auth.OAuth2(CLIENT_ID, CLIENT_SECRET);
+                  auth.setCredentials({ refresh_token: REFRESH_TOKEN });
+                  
+                  // Explicit token check
+                  try {
+                      console.log('Fetching access token...');
+                      await auth.getAccessToken();
+                      console.log('Access token obtained successfully.');
+                  } catch(e) {
+                      console.error('Authentication Failed:', e.message);
+                      if (e.response) console.error('Response:', e.response.data);
+                      throw e;
+                  }
+
+                  const drive = google.drive({ version: 'v3', auth });
+
+                  // 4. UPLOAD
+                  console.log(`Uploading to Google Drive Folder: ${FOLDER_ID}...`);
+                  const response = await drive.files.create({
+                      requestBody: {
+                          name: zipFileName,
+                          parents: [FOLDER_ID],
+                      },
+                      media: {
+                          mimeType: 'application/zip',
+                          body: fs.createReadStream(zipFilePath),
+                      },
+                  });
+
+                  console.log(`\nSUCCESS! File ID: ${response.data.id}`);
+                  
+                  // Cleanup
+                  if (fs.existsSync(backupDir)) fs.rmSync(backupDir, { recursive: true, force: true });
+                  if (fs.existsSync(zipFilePath)) fs.unlinkSync(zipFilePath);
+
+              } catch (error) {
+                  console.error('\nERROR:', error.message);
+                  // Attempt cleanup
+                  if (fs.existsSync(backupDir)) fs.rmSync(backupDir, { recursive: true, force: true });
+                  if (fs.existsSync(zipFilePath)) fs.unlinkSync(zipFilePath);
+                  process.exit(1);
+              } finally {
+                  if (client) await client.close();
+              }
+          }
+          
+          runBackup();
+          EOF
+
+      - name: Run Backup Script
+        env:
+          MONGO_URI: ${{ secrets.MONGO_URI }}
+          GDRIVE_CLIENT_ID: ${{ secrets.GDRIVE_CLIENT_ID }}
+          GDRIVE_CLIENT_SECRET: ${{ secrets.GDRIVE_CLIENT_SECRET }}
+          GDRIVE_REFRESH_TOKEN: ${{ secrets.GDRIVE_REFRESH_TOKEN }}
+          GDRIVE_FOLDER_ID: ${{ secrets.GDRIVE_FOLDER_ID }}
+        run: node backup.js
